@@ -1,4 +1,5 @@
 export default function teamExist(teams,email){
+    
     if(teams.length === 0){
         return false;
     }
@@ -9,6 +10,6 @@ export default function teamExist(teams,email){
             test=true;
         }
         i++;
-    }while(i<teams.lenght && test==false);
+    }while(i<teams.length && test==false);
     return test;
 }

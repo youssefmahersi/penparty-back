@@ -31,9 +31,9 @@ export const createTeam = async(req,res,next)=>{
             teamLink
         })
             const result = await team.save();
-            return res.status(201).json({message:"Team created successfully!",teamLink})
+            return res.status(200).json({message:"Team created successfully!",teamLink})
         }else{
-            return res.status(200).json("You alerady created a Team !")
+            return res.status(400).json("You alerady created a Team !")
         }
         
     }
@@ -62,14 +62,14 @@ export const joinTeam = async(req,res,next)=>{
         
         if(team){
             if(team.TeamLeader.email === user.email){
-                return res.status(200).json("You are alerady the team leader !");
+                return res.status(400).json("You are alerady the team leader !");
             }
             const findMember = team.teamMembers.find(member => member.email === user.email);
             if(findMember){
-                return res.status(200).json("You alerady joined the team !");
+                return res.status(400).json("You alerady joined the team !");
             }
             if(team.teamMembers.length >= 3){
-                return res.status(200).json("This team is full !");
+                return res.status(400).json("This team is full !");
             }
             team.teamMembers.push({
                 name:user.name,
@@ -77,9 +77,9 @@ export const joinTeam = async(req,res,next)=>{
                 tShirt
             })
             const result = team.save();
-            return res.status(201).json("you joined this team !");
+            return res.status(200).json({team});
         }else{
-            return res.status(200).json("Team not found !")
+            return res.status(400).json("Team not found !")
         }
     }catch(err){
         if (!err.statusCode) {
