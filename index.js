@@ -6,7 +6,12 @@ import mongoose from "mongoose";
 import bodyParserer from "body-parser";
 import authRoutes from "./routes/auth.js";
 import actRoutes from "./routes/activity.js";
+import contactRoute from "./routes/contact.js";
+import path from "path";
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
 //dotenv config
 import 'dotenv/config'
 
@@ -19,9 +24,14 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
   });
+app.use(express.static(path.join(__dirname, 'front')));
+app.use("/api/auth",authRoutes);
+app.use("/api",actRoutes);
+app.use("/api",contactRoute);
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(dirname, 'front', 'index.html'));
+});
 
-app.use("/auth",authRoutes);
-app.use(actRoutes);
 app.use((error, req, res, next) => {
     const status = error.statusCode || 500;
     const message = error.message;

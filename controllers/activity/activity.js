@@ -3,7 +3,6 @@ import Team from "../../models/team.js";
 import { randomBytes } from "crypto";
 import { validationResult } from'express-validator';
 import teamExist from "../../utils/teamExist.js";
-import team from "../../models/team.js";
 export const createTeam = async(req,res,next)=>{
     try{
         const errors = validationResult(req);
@@ -29,7 +28,7 @@ export const createTeam = async(req,res,next)=>{
             },
             teamMembers: [],
             teamLink
-        })
+            })
             const result = await team.save();
             return res.status(200).json({message:"Team created successfully!",teamLink})
         }else{
